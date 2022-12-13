@@ -14,8 +14,7 @@ namespace Сервер_удалённого_доступа
         static int port = 2022;
         
             static IPEndPoint ipPoint = new IPEndPoint(IPAddress.Any, port);
-            static Socket listenSocket =
-            new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            static Socket listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             static void Main()
             {
                 try
