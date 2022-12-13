@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lib1\Lib1.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Lib1">
+      <HintPath>..\Lib1\bin\Debug\net5.0\Lib1.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
