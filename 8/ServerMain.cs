@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Сервер_удалённого_доступа
 {
-    internal class Program
+    internal class ServerMain
     {
         static int port = 2022;
         
