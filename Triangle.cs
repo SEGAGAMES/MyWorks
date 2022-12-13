@@ -31,7 +31,7 @@ namespace lb5
         }
         public override bool IsPointIn(Vector2 test)
         {
-            return test.X > Position.X && test.Y > Position.Y && test.X < Position.X + length/2 && test.Y < Position.Y + length / 2;
+            return test.X > Position.X && test.Y > Position.Y && test.X < Position.X + length/2 && test.Y < Position.Y + length / 2 && test.X - Position.X > test.Y - Position.Y;
         }
     }
 }
