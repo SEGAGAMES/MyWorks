@@ -21,8 +21,8 @@ namespace Client
             string message;
             byte[] data = new byte[256];
             int bytes;
-            try
-            {
+            //try
+            //{
                 // подключаемся к удаленному хосту
                 socket.Connect(ipPoint);
                 do
@@ -47,6 +47,8 @@ namespace Client
                         bytes = socket.Receive(data);
                         builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
                     } while (socket.Available > 0);
+                    if (builder.Length == 0)
+                        goto mbox;
                     if (builder[0] != 'N')
                         Console.WriteLine("Ответа сервера: " + builder.ToString());
                     else
@@ -70,15 +72,17 @@ namespace Client
                     builder.Clear();
 
                 } while (message != "end");
+            mbox:
+                Console.WriteLine("end.");
 
                 // закрытие сокета
                 socket.Shutdown(SocketShutdown.Both);
                 socket.Close();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+           // }
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //}
         }
     }
 }
