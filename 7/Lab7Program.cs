@@ -102,7 +102,6 @@ namespace Server
 
             } while (builder.ToString() != "end");
             mbox:
-            Console.WriteLine("Пользователь отключился");
             // закрытие сокета
             hendler.Shutdown(SocketShutdown.Both);
             hendler.Close();
