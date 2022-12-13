@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
+using PlanetLib;
 
 namespace Server
 {
@@ -29,12 +30,15 @@ namespace Server
         int dataLength;
         public void Run()
         {
+            byte In = 0;
             Console.WriteLine($"Client №{id}. Информация: Установлено соединение с \"{clientInfo}\"");
             try
             {
+                Interpretator inter = new Interpretator();
                 do
                 {
                     // Получение команды.
+                    mbox:
                     data = new byte[256];
                     builder.Clear();
                     do
@@ -43,9 +47,23 @@ namespace Server
                         builder.Append(Encoding.Unicode.GetString(data, 0, dataLength));
                     } while (socket.Available > 0);
                     Console.WriteLine($"Client №{id}. Команда: {builder}");
+                    string[] command = builder.ToString().Split(' ');
+                    Console.WriteLine($"{command[0]}");
+                    if (In == 0)
+                    {
+                        answer = inter.ID(command);
+                        data = Encoding.Unicode.GetBytes(answer);
+                        socket.Send(data);
+                        if (answer == "Вы успешно вошли.")
+                        {
+                            In = 1;
+                        }
+                        goto mbox;
+                    }
+                    answer = inter.Execute(command);
 
                     // Обработка команды для генерации ответа.
-                    answer = DateTime.Now.ToString();
+                    //answer = DateTime.Now.ToString();
 
                     // Отправка ответа клиенту.
                     data = Encoding.Unicode.GetBytes(answer);
