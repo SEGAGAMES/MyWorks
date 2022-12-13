@@ -38,7 +38,7 @@ namespace lb5
             objects.Add(new Circle(0.5f, -0.0f, 0.2f, new Vector3(1f, 0.76f, 0f)));
             objects.Add(new Circle(0.5f, 0.5f, 0.15f, new Vector3(1f, 0.24f, 0f)));
             objects.Add(new Triangle(0.5f, 0f, 0f, new Vector3(1f, 0.57f, 0f)));
-            objects.Add(new Ring(0.5f, -0.5f, 0.15f, 0.1f, new Vector3(1f, 0.76f, 0f)));
+            objects.Add(new Ring(0.5f, -0.5f, 0.1f, 0.15f, new Vector3(1f, 0.76f, 0f)));
 
         }
         protected override void OnRenderFrame(FrameEventArgs args)
