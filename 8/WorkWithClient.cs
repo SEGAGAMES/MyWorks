@@ -19,8 +19,7 @@ namespace Server
         public WorkWithClient(Socket socket)
         {
             this.socket = socket;
-            id = count;
-            count++;
+            id = count++;
             clientInfo = socket.RemoteEndPoint.ToString();
         }
 
@@ -35,7 +34,7 @@ namespace Server
             {
                 do
                 {
-                    // Получение команды
+                    // Получение команды.
                     data = new byte[256];
                     builder.Clear();
                     do
@@ -43,10 +42,12 @@ namespace Server
                         dataLength = socket.Receive(data);
                         builder.Append(Encoding.Unicode.GetString(data, 0, dataLength));
                     } while (socket.Available > 0);
-                    Console.WriteLine($"Client №{id}. Команда: {builder.ToString()}");
-                    // Обработка команды для генерации ответа
+                    Console.WriteLine($"Client №{id}. Команда: {builder}");
+
+                    // Обработка команды для генерации ответа.
                     answer = DateTime.Now.ToString();
-                    // Отправка ответа клиенту
+
+                    // Отправка ответа клиенту.
                     data = Encoding.Unicode.GetBytes(answer);
                     socket.Send(data);
                 } while (builder.ToString() != "exit");

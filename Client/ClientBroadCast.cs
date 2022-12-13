@@ -13,6 +13,10 @@ namespace Client
         static byte[] data = new byte[256];
         static int bytes;
         static StringBuilder builder = new StringBuilder();
+        /// <summary>
+        /// Общение с сервером.
+        /// </summary>
+        /// <param name="socket">Связаный с сервером сокет.</param>
         static public void BroadCast(Socket socket)
         {
             while (true)
@@ -31,7 +35,7 @@ namespace Client
                 Console.Write("Введите сообщение: ");
                 do
                     command = Console.ReadLine();
-                while (command == null);
+                while (command == "");
                 if (command == "exit") break;
                 data = Encoding.Unicode.GetBytes(command);
                 socket.Send(data);
