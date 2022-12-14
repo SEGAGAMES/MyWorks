@@ -15,7 +15,7 @@ namespace PlanetLib
             Pin = pin;
             Login = login;
         }
-
+        public User() { }
         public string Login { get => login; set => login = value; }
         public int Pin { get => pin; set=> pin = value; }
 

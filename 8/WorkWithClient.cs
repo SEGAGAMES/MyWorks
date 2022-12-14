@@ -48,7 +48,6 @@ namespace Server
                     } while (socket.Available > 0);
                     Console.WriteLine($"Client №{id}. Команда: {builder}");
                     string[] command = builder.ToString().Split(' ');
-                    Console.WriteLine($"{command[0]}");
                     if (In == 0)
                     {
                         answer = inter.ID(command);
