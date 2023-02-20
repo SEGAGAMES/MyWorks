@@ -12,14 +12,22 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using System.Drawing;
+using НейросетьВ2;
 
 namespace Game
 {
     internal class MyGame : GameWindow
     {
-        public Catcher catcher = new Catcher(0, -0.9f, 0.5f, 0.1f, 0.0005f);
-        public Cube cube = new Cube(0, 0.9f, 0.0005f);
+        static float speed = 0.05f;
+        public Catcher catcher = new Catcher(0, -0.9f, 0.5f, 0.1f, speed);
+        public Cube cube = new Cube(0, 0.9f, speed);
         int score = 0;
+        int ideal = 0;
+        double[] delta = new double[384];
+        List<double> learn = new List<double>();
+        double loss;
+        Net net;
+        Keys keyboardState;
 
         public MyGame(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
         {
@@ -34,21 +42,29 @@ namespace Game
         {
             base.OnLoad();
             GL.ClearColor(Color.Blue);
+            net = new Net(4, 64, 2, "o.txt");
         }
         protected override void OnRenderFrame(FrameEventArgs args)
         {
             base.OnRenderFrame(args);
             GL.Clear(ClearBufferMask.ColorBufferBit);
-            if (KeyboardState.IsKeyDown(Keys.Left))
+            List<double> input = new List<double>();
+            input.Add(cube.PositionX);
+            input.Add(cube.PositionY);
+            input.Add(catcher.PositionX);
+            input.Add(catcher.PositionY);
+            double y1 = net.Ot(input)[0];
+            double y2 = net.Ot(input)[1];
+            loss += ((Math.Log(y1) + Math.Log(y2)) * ideal);
+            if (y1 > y2)
+                keyboardState =  Keys.Left;
+            else 
+                keyboardState = Keys.Right;
+            if (keyboardState == Keys.Left)
                 catcher.PositionX -= catcher.Speed;
-            if (KeyboardState.IsKeyDown(Keys.Right))
+            if (keyboardState ==Keys.Right)
                 catcher.PositionX += catcher.Speed;
-            //if (KeyboardState.IsKeyDown(Keys.Down))
-            //{
-            //    if (cube.Speed < 0.001)
-            //        cube.Speed = cube.Speed + 0.0005f;
-            //}
-            //else cube.Speed = 0.0005f;
+            net.Learning(input, loss, delta, out delta);
             cube.PositionY -= cube.Speed;
             catcher.DrawCather();
             cube.DrawCube();
@@ -62,15 +78,14 @@ namespace Game
                 if (cube.PositionX + 0.1f > catcher.PositionX && cube.PositionX < catcher.PositionX + catcher.Weight)
                 {
                     score++;
-                    cube.Speed = - cube.Speed;
-                    //cube.Respawn();
+                    cube.Respawn();
                     Console.WriteLine($"{score}");
+                    ideal = 1;
                 }
             }
-            if (cube.PositionY > 1)
-                cube.Speed = -cube.Speed;
             if (cube.PositionY < -0.9)
             {
+                ideal = 0;
                 cube.Respawn();
             }
         }

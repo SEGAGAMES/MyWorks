@@ -16,6 +16,7 @@ namespace Game
                 Profile = ContextProfile.Compatability,
             };
             MyGame game = new MyGame(gameWindowSettings, nativeWindowSettings);
+            game.RenderFrequency = 30;
             game.Run();
         }
     }
