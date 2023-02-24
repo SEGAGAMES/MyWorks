@@ -22,7 +22,7 @@ namespace Game
         public Catcher catcher = new Catcher(0, -0.9f, 0.5f, 0.1f, speed);
         public Cube cube = new Cube(0, 0.9f, speed);
         int score = 0;
-        int ideal = 0;
+        double ideal = 0;
         double[] delta = new double[384];
         List<double> learn = new List<double>();
         double loss;
@@ -55,7 +55,6 @@ namespace Game
             input.Add(catcher.PositionY);
             double y1 = net.Ot(input)[0];
             double y2 = net.Ot(input)[1];
-            loss += ((Math.Log(y1) + Math.Log(y2)) * ideal);
             if (y1 > y2)
                 keyboardState =  Keys.Left;
             else 
@@ -64,11 +63,13 @@ namespace Game
                 catcher.PositionX -= catcher.Speed;
             if (keyboardState ==Keys.Right)
                 catcher.PositionX += catcher.Speed;
-            net.Learning(input, loss, delta, out delta);
             cube.PositionY -= cube.Speed;
             catcher.DrawCather();
             cube.DrawCube();
+            
             Check();
+            loss += ((Math.Log(y1) + Math.Log(y2)) * ideal);
+            Console.WriteLine(   net.Learning(input, -loss, delta, out delta));
             SwapBuffers();
         }
         void Check()
@@ -81,11 +82,13 @@ namespace Game
                     cube.Respawn();
                     Console.WriteLine($"{score}");
                     ideal = 1;
+                    loss = 0;
                 }
             }
             if (cube.PositionY < -0.9)
             {
                 ideal = 0;
+                loss = 0;
                 cube.Respawn();
             }
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenTK.Graphics.OpenGL;
+using System;
 using System.Collections.Generic;
 
 namespace НейросетьВ2
@@ -15,7 +16,11 @@ namespace НейросетьВ2
             {
                 summinput = summinput + listWeightIn[i] * listIn[i];
             }
-            return Sigmoid(summinput / listWeightIn.Count);
+            return tanh(summinput / listWeightIn.Count);
+        }
+        public double tanh(double weight)
+        {
+            return (Math.Pow(Math.E, weight) - Math.Pow(Math.E, - weight)) / (Math.Pow(Math.E, weight) + Math.Pow(Math.E, -weight));
         }
         public double Sigmoid(double weight)
         {

@@ -37,19 +37,19 @@ namespace НейросетьВ2
                 }
             }
             List<Neuron> hneurons = new List<Neuron>();
-            List<double> hweights = new List<double>(inputCount);
+            List<double> hweights = new List<double>();
             for (int i = 0; i < inputCount; i++)
             {
-                hweights[i] = allWeighs[i];
+                hweights.Add(allWeighs[i]);
             }
-            for (int i = 0; i < inputCount; i++)
+            for (int i = 0; i < hiddenLayerCount; i++)
             {
                 hneurons.Add(new Neuron(hweights));
             }
             List<double> oweights = new List<double>(hiddenLayerCount);
             for (int i = inputCount; i < hiddenLayerCount +inputCount; i++)
             {
-                oweights[i] = allWeighs[i];
+                oweights.Add(allWeighs[i]);
             }
             List<Neuron> oneurons = new List<Neuron>();
             for (int i = hiddenLayerCount; i < hiddenLayerCount + outputLayerCount; i++)
