@@ -8,10 +8,9 @@ using Observer.Интерфейсы;
 
 namespace Observer.Читатели
 {
-    internal class Hobbit : Subscriber
+    internal class Hobbit //: Subscriber
     {
         public string Name { get; }
-
         public Hobbit(string name)
         {
             Name = name;
@@ -23,6 +22,12 @@ namespace Observer.Читатели
             {
                 Read(magazine.Articles[i]);
             }
+        }
+        public void Updated(Publisher sender, object context)
+        {
+            Random rnd = new Random();
+            Magazine magazine = (Magazine)context;
+            Read(magazine.Articles[rnd.Next(0, magazine.Articles.Length)]);
         }
 
         private void Read(Article article)

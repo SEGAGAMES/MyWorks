@@ -13,9 +13,10 @@ namespace Observer.Издательство
         int targetNumberOfArticles = 4;
         List<Article> newArticles = new List<Article>();
         Magazine currentMagazine;
-        public List<Subscriber> subscribers = new List<Subscriber>();
-        List<Subscriber> unsubs = new List<Subscriber>();
-        List<Subscriber> addsubs = new List<Subscriber>();
+        public delegate void Update(Publisher publisher, Magazine magazine);
+        public event Update issueOfTheMagazine;
+        //public List<Subscriber> subscribers = new List<Subscriber>();
+        //List<Subscriber> unsubs = new List<Subscriber>();
 
         public void MainBuisnessLogic()
         {
@@ -25,37 +26,46 @@ namespace Observer.Издательство
 
             if (newArticles.Count >= targetNumberOfArticles) // Выпуск журнала
             {
+                Console.WriteLine();
+                Console.WriteLine("Издатель выпустил новый журнал!");
                 magNumber++;
                 currentMagazine = new Magazine(DateTime.Now, "Mag №" + magNumber, newArticles);
-                NotifySubScribers();
+                if (issueOfTheMagazine != null)
+                    issueOfTheMagazine(this, currentMagazine);
+                //NotifySubScribers();
                 newArticles = new List<Article>();
             }
         }
-        public void NotifySubScribers()
-        {
-            foreach (Subscriber s in addsubs)
-                if (!subscribers.Contains(s))
-                    subscribers.Add(s);
-            foreach (Subscriber s in unsubs)
-                if (subscribers.Contains(s))
-                    subscribers.Remove(s);
-            foreach (Subscriber s in subscribers)
-                s.Update(this, currentMagazine);
-            foreach (Subscriber s in  unsubs)
-                if (subscribers.Contains(s))
-                    subscribers.Remove(s);
-        }
+        //public void NotifySubScribers()
+        //{
+        //    foreach (Subscriber s in unsubs)
+        //        if (subscribers.Contains(s))
+        //            subscribers.Remove(s);
+        //    foreach (Subscriber s in subscribers)
+        //        s.Update(this, currentMagazine);
+        //    foreach (Subscriber s in  unsubs)
+        //        if (subscribers.Contains(s))
+        //            subscribers.Remove(s);
+        //}
 
-        public void Subscribe(Subscriber newSubscriber)
-        {
-            if (subscribers.Contains(newSubscriber) == false)
-                addsubs.Add(newSubscriber);
-        }
-        public void Unsubscribe(Subscriber remSubscriber)
-        {
-            if (subscribers.Contains(remSubscriber) == true)
-                unsubs.Add(remSubscriber);
-        }
+        //public bool Subscribe(Subscriber newSubscriber)
+        //{
+        //    if (subscribers.Contains(newSubscriber) == false)
+        //    {
+        //        subscribers.Add(newSubscriber);
+        //        return true;
+        //    }
+        //    else return false;
+        //}
+        //public bool Unsubscribe(Subscriber remSubscriber)
+        //{
+        //    if (subscribers.Contains(remSubscriber) == true)
+        //    {
+        //        unsubs.Add(remSubscriber);
+        //        return true;
+        //    }
+        //    else return false;
+        //}
         public void AddArticle(Article article)
         {
             newArticles.Add(article);

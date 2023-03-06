@@ -8,7 +8,7 @@ using Observer.Издательство;
 
 namespace Observer.Читатели
 {
-    internal class People : Subscriber
+    internal class People //: Subscriber
     {
         public string Name { get; }
         public People(string name)

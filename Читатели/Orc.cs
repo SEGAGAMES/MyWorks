@@ -8,10 +8,9 @@ using Observer.Интерфейсы;
 
 namespace Observer.Читатели
 {
-    internal class Orc : Subscriber
+    internal class Orc //: Subscriber
     {
         public string Name { get; }
-
         public Orc(string name)
         {
             Name = name;
@@ -25,9 +24,9 @@ namespace Observer.Читатели
 
         private void Read(Article article, Publisher sender)
         {
-            if (article.Title.Contains("Эльф") || article.Title.Contains("эльф") || article.Text.Contains("Эльф") || article.Text.Contains("эльф") )
-                sender.Unsubscribe(this);
-            else
+            //if (article.Title.Contains("Эльф") || article.Title.Contains("эльф") || article.Text.Contains("Эльф") || article.Text.Contains("эльф") )
+            //    sender.Unsubscribe(this);
+            //else
                 Console.WriteLine($"{Name} читает статью \"{article.Title}\"");
         }
     }

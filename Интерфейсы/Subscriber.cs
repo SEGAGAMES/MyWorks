@@ -7,9 +7,9 @@ using Observer.Издательство;
 
 namespace Observer.Интерфейсы
 {
-    interface Subscriber
-    {
-        void Update(Publisher sender, object context);
-        public string Name { get; }
-    }
+    //interface Subscriber
+    //{
+    //    void Update(Publisher sender, object context);
+    //    public string Name { get; }
+    //}
 }
